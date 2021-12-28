@@ -1,3 +1,4 @@
+/*
 package ru.vogulev.voting.config;
 
 import lombok.AllArgsConstructor;
@@ -57,3 +58,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
     }
 }
+*/
