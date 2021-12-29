@@ -8,13 +8,14 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import ru.vogulev.voting.model.User;
 import ru.vogulev.voting.repository.UserRepository;
+import ru.vogulev.voting.service.UserService;
 import ru.vogulev.voting.util.UserUtil;
 
 @Slf4j
 public abstract class AbstractUserController {
 
     @Autowired
-    protected UserRepository repository;
+    protected UserService service;
 
     @Autowired
     private UniqueMailValidator emailValidator;
@@ -26,16 +27,16 @@ public abstract class AbstractUserController {
 
     public ResponseEntity<User> get(int id) {
         log.info("get {}", id);
-        return ResponseEntity.of(repository.findById(id));
+        return ResponseEntity.of(service.get(id));
     }
 
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
-        repository.deleteExisted(id);
+        service.delete(id);
     }
 
     protected User prepareAndSave(User user) {
-        return repository.save(UserUtil.prepareToSave(user));
+        return service.create(user);
     }
 }

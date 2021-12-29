@@ -1,4 +1,4 @@
-package ru.vogulev.voting.error;
+package ru.vogulev.voting.util.exception;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;

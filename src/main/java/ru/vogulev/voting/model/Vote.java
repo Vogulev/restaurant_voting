@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import ru.vogulev.voting.error.IllegalRequestDataException;
+import ru.vogulev.voting.util.exception.IllegalRequestDataException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

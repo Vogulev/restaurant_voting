@@ -47,7 +47,7 @@ CREATE TABLE dish
 (
     id            INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     name          VARCHAR(255) NOT NULL,
-    price         DOUBLE      NOT NULL,
+    price         DOUBLE       NOT NULL,
     restaurant_id INTEGER      NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 )

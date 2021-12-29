@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.vogulev.voting.error.AppException;
+import ru.vogulev.voting.util.exception.AppException;
 import ru.vogulev.voting.util.validation.ValidationUtil;
 
 import javax.persistence.EntityNotFoundException;

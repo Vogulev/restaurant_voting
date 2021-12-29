@@ -46,7 +46,7 @@ public class AdminUserController extends AbstractUserController {
     @Cacheable
     public List<User> getAll() {
         log.info("getAll");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
+        return service.getAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -65,15 +65,13 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
-        log.info("update {} with id={}", user, id);
-        assureIdConsistent(user, id);
-        prepareAndSave(user);
+        service.update(user, id);
     }
 
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
         log.info("getByEmail {}", email);
-        return ResponseEntity.of(repository.getByEmail(email));
+        return ResponseEntity.of(service.getByEmail(email));
     }
 
     @PatchMapping("/{id}")
@@ -81,8 +79,6 @@ public class AdminUserController extends AbstractUserController {
     @Transactional
     @CacheEvict(allEntries = true)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", id);
-        User user = repository.getById(id);
-        user.setEnabled(enabled);
+        service.enable(id, enabled);
     }
 }

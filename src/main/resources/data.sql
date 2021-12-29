@@ -10,13 +10,13 @@ DELETE
 FROM restaurant;
 
 INSERT INTO users (NAME, EMAIL, PASSWORD)
-VALUES ('Admin', 'admin@gmail.com', 'admin'),
-       ('User', 'user@yandex.ru', 'password'),
-       ('Artem', 'artem@yandex.ru', 'password'),
-       ('Vasiliy Pupkin', 'pupkin@yandex.ru', 'password'),
-       ('Petr Vasutin', 'vasutin@yandex.ru', 'password'),
-       ('Gleb Zhiglov', 'zhiglov@yandex.ru', 'password'),
-       ('Vladimir Sharapov', 'sharapov@gmail.com', 'password');
+VALUES ('Admin', 'admin@gmail.com', '{noop}admin'),
+       ('User', 'user@yandex.ru', '{noop}password'),
+       ('Artem Vogulev', 'artem@yandex.ru', '{noop}vogulevpass'),
+       ('Vasiliy Pupkin', 'pupkin@yandex.ru', '{noop}pupkinpass'),
+       ('Petr Vasutin', 'vasutin@yandex.ru', '{noop}vasutinpass'),
+       ('Gleb Zhiglov', 'zhiglov@yandex.ru', '{noop}zhiglovpass'),
+       ('Vladimir Sharapov', 'sharapov@gmail.com', '{noop}sharapovpass');
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),
@@ -25,7 +25,9 @@ VALUES ('USER', 100000),
        ('USER', 100002),
        ('USER', 100003),
        ('USER', 100004),
-       ('USER', 100005);
+       ('USER', 100005),
+       ('USER', 100006),
+       ('ADMIN', 100006);
 
 INSERT INTO restaurant (name)
 VALUES ('Premium restaurant'),
