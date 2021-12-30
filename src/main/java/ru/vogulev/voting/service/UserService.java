@@ -1,6 +1,7 @@
 package ru.vogulev.voting.service;
 
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,13 +25,10 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkModification
 @Slf4j
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
-
-    public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
 
     @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
@@ -47,11 +45,6 @@ public class UserService {
         return repository.findById(id);
     }
 
-    public Optional<User> getByEmail(String email) {
-        Assert.notNull(email, "email must not be null");
-        return repository.getByEmail(email);
-    }
-
     @Cacheable("users")
     public List<User> getAll() {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
@@ -62,6 +55,11 @@ public class UserService {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         prepareAndSave(user);
+    }
+
+    public Optional<User> getByEmail(String email) {
+        Assert.notNull(email, "email must not be null");
+        return repository.getByEmail(email);
     }
 
     @CacheEvict(value = "users", allEntries = true)
