@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.vogulev.voting.util.validation.ValidationUtil.checkModification;
 
 @Slf4j
 @Service("restaurantService")
@@ -32,7 +31,7 @@ public class RestaurantService {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        checkModification(repository.delete(id), id);
+        repository.deleteExisted(id);
     }
 
     public Optional<Restaurant> get(int id) {

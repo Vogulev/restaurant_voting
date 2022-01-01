@@ -20,7 +20,6 @@ import java.util.Optional;
 
 import static ru.vogulev.voting.util.UserUtil.prepareToSave;
 import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.vogulev.voting.util.validation.ValidationUtil.checkModification;
 
 @Slf4j
 @Service("userService")
@@ -38,7 +37,7 @@ public class UserService {
 
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
-        checkModification(repository.delete(id), id);
+        repository.deleteExisted(id);
     }
 
     public Optional<User> get(int id) {

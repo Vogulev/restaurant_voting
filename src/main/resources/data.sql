@@ -36,12 +36,12 @@ VALUES ('Premium restaurant'),
        ('Sushi city');
 
 INSERT INTO VOTE (USER_ID, RESTAURANT_ID, VOTE_DATE)
-VALUES (100000, 100007, now()),
-       (100001, 100007, now()),
-       (100002, 100007, now()),
-       (100003, 100009, now()),
-       (100004, 100008, now()),
-       (100005, 100008, now());
+VALUES (100000, 100007, CURRENT_DATE),
+       (100001, 100007, CURRENT_DATE),
+       (100002, 100007, CURRENT_DATE),
+       (100003, 100009, CURRENT_DATE),
+       (100004, 100008, CURRENT_DATE),
+       (100005, 100008, CURRENT_DATE);
 
 INSERT INTO DISH (NAME, PRICE, RESTAURANT_ID)
 VALUES ('Spaghetti bolognese', 50.5, 100007),

@@ -32,7 +32,7 @@ public class DishService {
 
     public void delete(int id) {
         log.info("delete {}", id);
-        checkModification(dishRepository.delete(id), id);
+        dishRepository.deleteExisted(id);
     }
 
     public Optional<Dish> get(int id) {
