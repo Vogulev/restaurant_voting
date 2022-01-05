@@ -1,5 +1,7 @@
 package ru.vogulev.voting.web.dish;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,34 +18,40 @@ import java.util.List;
 @RestController
 @RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@Tag(name = "Dish admin", description = "The Dish Admin API")
 public class AdminDishController {
 
-    static final String REST_URL = "/api/admin/restaurants/{restaurantId}/dishes";
+    static final String REST_URL = "api/admin/restaurants/{restaurantId}/dishes";
 
     private DishService service;
 
+    @Operation(summary = "Get by id", tags = "dish admin")
     @GetMapping("/{id}")
     public ResponseEntity<Dish> get(@PathVariable int id) {
         return ResponseEntity.of(service.get(id));
     }
 
+    @Operation(summary = "Get all", tags = "dish admin")
     @GetMapping
     public List<Dish> getAll(@PathVariable int restaurantId) {
         return service.getAll(restaurantId);
     }
 
+    @Operation(summary = "Delete", tags = "dish admin")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         service.delete(id);
     }
 
+    @Operation(summary = "Update", tags = "dish admin")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
-        service.update(dish, id);
+        service.update(dish, id, restaurantId);
     }
 
+    @Operation(summary = "Create", tags = "dish admin")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
         Dish created = service.create(dish, restaurantId);

@@ -45,10 +45,10 @@ CREATE TABLE vote
 
 CREATE TABLE dish
 (
-    id            INTEGER   DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    name          VARCHAR(255)            NOT NULL,
-    price         DOUBLE                  NOT NULL,
-    restaurant_id INTEGER                 NOT NULL,
-    add_date      TIMESTAMP DEFAULT now() NOT NULL,
+    id            INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
+    name          VARCHAR(255)          NOT NULL,
+    price         DOUBLE                NOT NULL,
+    restaurant_id INTEGER               NOT NULL,
+    add_date      DATE    DEFAULT now() NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 )

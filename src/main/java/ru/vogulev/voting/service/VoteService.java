@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vogulev.voting.model.Restaurant;
-import ru.vogulev.voting.model.User;
 import ru.vogulev.voting.model.Vote;
 import ru.vogulev.voting.repository.RestaurantRepository;
 import ru.vogulev.voting.repository.VoteRepository;
+import ru.vogulev.voting.to.VoteTo;
 import ru.vogulev.voting.util.exception.IllegalRequestDataException;
+import ru.vogulev.voting.web.AuthUser;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.vogulev.voting.util.validation.ValidationUtil.checkNotFound;
-import static ru.vogulev.voting.web.SecurityUtil.authId;
-import static ru.vogulev.voting.web.SecurityUtil.authUser;
 
 @Slf4j
 @Service
@@ -29,21 +28,27 @@ public class VoteService {
     private VoteRepository voteRepository;
     private RestaurantRepository restaurantRepository;
 
-    public Vote create(int restaurantId) {
-        User currentUser = authUser();
+    public Vote create(int restaurantId, AuthUser authUser) {
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        log.info("user with id{} voted for restaurant with id{}", currentUser.id(), restaurantId);
-        return voteRepository.save(new Vote(currentUser, restaurant));
+        if (voteRepository.findVoteByUserIdAndVoteDate(authUser.id(), LocalDate.now()) != null) {
+            throw new IllegalRequestDataException("Can't vote two times per day!");
+        }
+        log.info("user with id{} voted for restaurant with id{}", authUser.id(), restaurantId);
+        return voteRepository.save(new Vote(authUser.getUser(), restaurant));
     }
 
-    public void delete(int id) {
-        log.info("delete {}", id);
-        voteRepository.deleteExisted(id);
+    public void delete(int id, int userId) {
+        if (checkVotingDeadline()) {
+            log.info("delete {}", id);
+            voteRepository.deleteVoteByIdAndUserId(id, userId);
+        } else {
+            throw new IllegalRequestDataException("It's too late, vote can't be deleted");
+        }
     }
 
-    public Optional<Vote> get(int id) {
+    public Optional<Vote> get(int id, int userId) {
         log.info("get {}", id);
-        return voteRepository.findById(id);
+        return voteRepository.findByIdAndUserId(id, userId);
     }
 
     public List<Vote> getAllByRestaurantId(int restaurantId) {
@@ -56,15 +61,23 @@ public class VoteService {
         return voteRepository.findAllByUserIdOrderByVoteDate(userId);
     }
 
-    public void update(int restaurantId) {
-        log.info("update vote for restaurant with id={}", restaurantId);
-        Vote updated = checkNotFound(voteRepository.findVoteByUserIdAndVoteDate(authId(), LocalDate.now()),
+    public void update(int restaurantId, int userid) {
+        Vote updated = checkNotFound(voteRepository.findVoteByUserIdAndVoteDate(userid, LocalDate.now()),
                 "id:" + restaurantId);
-        if (LocalTime.now().isBefore(VOTING_DEADLINE)) {
+        if (checkVotingDeadline()) {
+            log.info("update vote for restaurant with id={}", restaurantId);
             updated.setRestaurant(restaurantRepository.getById(restaurantId));
             voteRepository.save(updated);
         } else {
             throw new IllegalRequestDataException("It's too late, vote can't be changed");
         }
+    }
+
+    public List<VoteTo> getAllByDate(LocalDate voteDate) {
+        return voteRepository.findAllByVoteDate(voteDate);
+    }
+
+    private boolean checkVotingDeadline() {
+        return LocalTime.now().isBefore(VOTING_DEADLINE);
     }
 }

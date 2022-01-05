@@ -9,10 +9,12 @@ import ru.vogulev.voting.model.Dish;
 import ru.vogulev.voting.repository.DishRepository;
 import ru.vogulev.voting.repository.RestaurantRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.vogulev.voting.util.validation.ValidationUtil.*;
+import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 
 @Slf4j
 @Service("dishService")
@@ -45,9 +47,15 @@ public class DishService {
         return dishRepository.findAllByRestaurantIdOrderByAddDate(restaurantId);
     }
 
-    public void update(Dish dish, int id) {
+    public void update(Dish dish, int id, int restaurantId) {
         log.info("update {} with id={}", dish, id);
         assureIdConsistent(dish, id);
+        dish.setRestaurant(restaurantRepository.getById(restaurantId));
         dishRepository.save(dish);
+    }
+
+    public List<Dish> getFromRestaurantByDate(int restaurantId, LocalDate addDate) {
+        log.info("get menu from restaurant with id {} on date={}", restaurantId, addDate);
+        return dishRepository.findAllByRestaurantIdAndAddDate(restaurantId, addDate);
     }
 }

@@ -1,11 +1,15 @@
 package ru.vogulev.voting.web.restaurant;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.vogulev.voting.model.Restaurant;
+import ru.vogulev.voting.service.RestaurantService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -15,33 +19,41 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestaurantController extends AbstractRestaurantController {
+@AllArgsConstructor
+@Tag(name = "Restaurant admin", description = "The Restaurant Admin API")
+public class AdminRestaurantController {
 
-    static final String REST_URL = "/api/admin/restaurants";
+    static final String REST_URL = "api/admin/restaurants";
 
-    @Override
+    protected RestaurantService service;
+
+    @Operation(summary = "Get by id", tags = "restaurant admin")
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
-        return super.get(id);
+        return ResponseEntity.of(service.get(id));
     }
 
+    @Operation(summary = "Get all", tags = "restaurant admin")
     @GetMapping
     public List<Restaurant> getAll() {
         return service.getAll();
     }
 
+    @Operation(summary = "Delete by id", tags = "restaurant admin")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         service.delete(id);
     }
 
+    @Operation(summary = "Update", tags = "restaurant admin")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         service.update(restaurant, id);
     }
 
+    @Operation(summary = "Create", tags = "restaurant admin")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         checkNew(restaurant);

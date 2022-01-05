@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,8 +31,7 @@ public class Dish extends NamedEntity{
     @JsonIgnore
     private Restaurant restaurant;
 
-    @Column(name = "add_date", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
+    @Column(name = "add_date", nullable = false, columnDefinition = "timestamp default now()")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate addDate = LocalDate.now();
 }

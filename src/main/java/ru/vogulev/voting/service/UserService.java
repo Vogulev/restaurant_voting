@@ -3,6 +3,7 @@ package ru.vogulev.voting.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +26,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsisten
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @AllArgsConstructor
+@CacheConfig(cacheNames = "users")
 public class UserService {
 
     private final UserRepository repository;
