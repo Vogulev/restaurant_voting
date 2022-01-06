@@ -21,7 +21,7 @@ import java.util.List;
 @Tag(name = "Dish admin", description = "The Dish Admin API")
 public class AdminDishController {
 
-    static final String REST_URL = "api/admin/restaurants/{restaurantId}/dishes";
+    static final String REST_URL = "/api/admin/restaurants/{restaurantId}/dishes";
 
     private DishService service;
 

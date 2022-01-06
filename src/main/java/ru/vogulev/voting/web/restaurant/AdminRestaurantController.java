@@ -26,7 +26,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @Tag(name = "Restaurant admin", description = "The Restaurant Admin API")
 public class AdminRestaurantController {
 
-    static final String REST_URL = "api/admin/restaurants";
+    static final String REST_URL = "/api/admin/restaurants";
 
     protected RestaurantService service;
 

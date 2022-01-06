@@ -17,7 +17,7 @@ import java.util.List;
 @Tag(name = "Vote admin", description = "The Vote Admin API")
 public class AdminVoteController {
 
-    static final String REST_URL = "api/admin/votes";
+    static final String REST_URL = "/api/admin/votes";
 
     protected VoteService service;
 

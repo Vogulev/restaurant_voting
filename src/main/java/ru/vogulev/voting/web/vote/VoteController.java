@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Vote", description = "The Vote API")
 public class VoteController {
 
-    static final String REST_URL = "api/profile/votes";
+    static final String REST_URL = "/api/profile/votes";
 
     protected VoteService service;
 

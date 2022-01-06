@@ -18,7 +18,7 @@ import java.util.List;
 @Tag(name = "Restaurant", description = "The Restaurant API")
 public class RestaurantController {
 
-    public static final String REST_URL = "api/restaurants";
+    public static final String REST_URL = "/api/restaurants";
 
     protected RestaurantService service;
 

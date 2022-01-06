@@ -25,7 +25,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @Tag(name = "Admin", description = "The Admin API")
 public class AdminUserController extends AbstractUserController {
 
-    static final String REST_URL = "api/admin/users";
+    static final String REST_URL = "/api/admin/users";
 
     @Override
     @Operation(summary = "Get by id", tags = "admin")
