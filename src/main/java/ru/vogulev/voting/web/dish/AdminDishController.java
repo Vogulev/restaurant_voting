@@ -27,8 +27,8 @@ public class AdminDishController {
 
     @Operation(summary = "Get by id", tags = "dish admin")
     @GetMapping("/{id}")
-    public ResponseEntity<Dish> get(@PathVariable int id) {
-        return ResponseEntity.of(service.get(id));
+    public ResponseEntity<Dish> get(@PathVariable int id, @PathVariable int restaurantId) {
+        return ResponseEntity.of(service.get(id, restaurantId));
     }
 
     @Operation(summary = "Get all", tags = "dish admin")
@@ -40,8 +40,8 @@ public class AdminDishController {
     @Operation(summary = "Delete", tags = "dish admin")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        service.delete(id);
+    public void delete(@PathVariable int id, @PathVariable int restaurantId) {
+        service.delete(id, restaurantId);
     }
 
     @Operation(summary = "Update", tags = "dish admin")

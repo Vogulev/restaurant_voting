@@ -13,8 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
+import static ru.vogulev.voting.util.validation.ValidationUtil.*;
 
 @Slf4j
 @Service("dishService")
@@ -32,14 +31,14 @@ public class DishService {
         return dishRepository.save(dish);
     }
 
-    public void delete(int id) {
+    public void delete(int id, int restaurantId) {
         log.info("delete {}", id);
-        dishRepository.deleteExisted(id);
+        checkNotFoundWithId(dishRepository.deleteByIdAndRestaurantId(id, restaurantId) != 0, id);
     }
 
-    public Optional<Dish> get(int id) {
+    public Optional<Dish> get(int id, int restaurantId) {
         log.info("get {}", id);
-        return dishRepository.findById(id);
+        return dishRepository.findByIdAndRestaurantId(id, restaurantId);
     }
 
     public List<Dish> getAll(int restaurantId) {

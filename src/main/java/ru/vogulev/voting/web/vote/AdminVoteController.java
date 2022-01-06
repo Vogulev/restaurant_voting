@@ -4,11 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.vogulev.voting.model.Vote;
+import org.springframework.web.bind.annotation.*;
 import ru.vogulev.voting.service.VoteService;
 import ru.vogulev.voting.to.VoteTo;
 
@@ -27,13 +23,19 @@ public class AdminVoteController {
 
     @Operation(summary = "Get by restaurant id", tags = "vote admin")
     @GetMapping("/{restaurantId}")
-    public List<Vote> getAllByRestaurantId(@PathVariable int restaurantId) {
+    public List<VoteTo> getAllByRestaurantId(@PathVariable int restaurantId) {
         return service.getAllByRestaurantId(restaurantId);
     }
 
-    @Operation(summary = "Get all votes on date", tags = "vote admin")
-    @GetMapping
+    @Operation(summary = "Get all votes for today", tags = "vote admin")
+    @GetMapping("/today")
     public List<VoteTo> getAllOnToday() {
         return service.getAllByDate(LocalDate.now());
+    }
+
+    @Operation(summary = "Get all votes for date", tags = "vote admin")
+    @GetMapping
+    public List<VoteTo> getAllOnDate(@RequestParam LocalDate date) {
+        return service.getAllByDate(date);
     }
 }

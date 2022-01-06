@@ -51,7 +51,7 @@ public class VoteService {
         return voteRepository.findByIdAndUserId(id, userId);
     }
 
-    public List<Vote> getAllByRestaurantId(int restaurantId) {
+    public List<VoteTo> getAllByRestaurantId(int restaurantId) {
         log.info("getAll by restaurant with id{}", restaurantId);
         return voteRepository.findAllByRestaurantIdOrderByVoteDate(restaurantId);
     }

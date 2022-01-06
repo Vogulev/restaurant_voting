@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.vogulev.voting.model.Restaurant;
 import ru.vogulev.voting.repository.RestaurantRepository;
+import ru.vogulev.voting.to.RestaurantTo;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +36,9 @@ public class RestaurantService {
         repository.deleteExisted(id);
     }
 
-    public Optional<Restaurant> get(int id) {
+    public Optional<RestaurantTo> get(int id) {
         log.info("get {}", id);
-        return repository.findById(id);
+        return repository.findRestaurantWithVotesById(id);
     }
 
     public List<Restaurant> getAll() {
@@ -48,5 +50,10 @@ public class RestaurantService {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
+    }
+
+    public List<RestaurantTo> getAllWithCountByDate(LocalDate voteDate) {
+        log.info("get all restaurants with count by date {}", voteDate);
+        return repository.findAllRestaurantsWithVotesCountOnDate(voteDate);
     }
 }
