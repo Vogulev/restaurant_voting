@@ -65,6 +65,6 @@ public class AdminRestaurantController {
     @Operation(summary = "Get all with vote count", tags = "restaurant admin")
     @GetMapping("/count")
     public List<RestaurantTo> getAllWithVotesCountByDate(@RequestParam LocalDate voteDate) {
-        return service.getAllWithCountByDate(voteDate);
+        return service.getAllOnDate(voteDate);
     }
 }

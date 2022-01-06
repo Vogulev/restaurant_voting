@@ -32,6 +32,8 @@ CREATE TABLE restaurant
     id   INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
+CREATE UNIQUE INDEX restaurant_unique_name_idx
+    ON RESTAURANT (name);
 
 CREATE TABLE vote
 (
@@ -42,6 +44,8 @@ CREATE TABLE vote
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX vote_unique_vote_idx
+    ON VOTE (user_id, vote_date);
 
 CREATE TABLE dish
 (
@@ -51,4 +55,6 @@ CREATE TABLE dish
     restaurant_id INTEGER               NOT NULL,
     add_date      DATE    DEFAULT now() NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
-)
+);
+CREATE UNIQUE INDEX dish_unique_restaurant_name_idx
+    ON DISH (name, add_date, restaurant_id);

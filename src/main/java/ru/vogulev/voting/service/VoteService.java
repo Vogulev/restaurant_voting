@@ -30,9 +30,6 @@ public class VoteService {
 
     public Vote create(int restaurantId, AuthUser authUser) {
         Restaurant restaurant = restaurantRepository.getById(restaurantId);
-        if (voteRepository.findVoteByUserIdAndVoteDate(authUser.id(), LocalDate.now()) != null) {
-            throw new IllegalRequestDataException("Can't vote two times per day!");
-        }
         log.info("user with id{} voted for restaurant with id{}", authUser.id(), restaurantId);
         return voteRepository.save(new Vote(authUser.getUser(), restaurant));
     }

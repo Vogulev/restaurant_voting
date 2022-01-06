@@ -2,6 +2,8 @@ package ru.vogulev.voting.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @Service("restaurantService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @AllArgsConstructor
+@CacheConfig(cacheNames = "restaurants")
 public class RestaurantService {
 
     private final RestaurantRepository repository;
@@ -43,6 +46,7 @@ public class RestaurantService {
         return repository.findRestaurantWithVotesById(id);
     }
 
+    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
@@ -54,8 +58,8 @@ public class RestaurantService {
         repository.save(restaurant);
     }
 
-    public List<RestaurantTo> getAllWithCountByDate(LocalDate voteDate) {
-        log.info("get all restaurants with count by date {}", voteDate);
+    public List<RestaurantTo> getAllOnDate(LocalDate voteDate) {
+        log.info("get all restaurants on date {}", voteDate);
         return repository.findAllRestaurantsWithVotesCountOnDate(voteDate);
     }
 }
