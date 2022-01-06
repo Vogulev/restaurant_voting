@@ -17,9 +17,6 @@ import ru.vogulev.voting.web.AuthUser;
 import javax.validation.Valid;
 import java.net.URI;
 
-import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
-import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
-
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Profile", description = "The Profile API")
@@ -43,7 +40,6 @@ public class ProfileController extends AbstractUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
-        checkNew(userTo);
         User created = prepareAndSave(UserUtil.createNewFromTo(userTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL).build().toUri();
@@ -55,8 +51,7 @@ public class ProfileController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthUser authUser) {
-        assureIdConsistent(userTo, authUser.id());
         User user = authUser.getUser();
-        prepareAndSave(UserUtil.updateFromTo(user, userTo));
+        service.update(UserUtil.updateFromTo(user, userTo), authUser.id());
     }
 }

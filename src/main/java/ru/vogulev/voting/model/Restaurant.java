@@ -41,4 +41,8 @@ public class Restaurant extends NamedEntity implements HasId, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Dish> menu;
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
 }

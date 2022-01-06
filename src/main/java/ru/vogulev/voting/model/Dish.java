@@ -34,4 +34,11 @@ public class Dish extends NamedEntity{
     @Column(name = "add_date", nullable = false, columnDefinition = "timestamp default now()")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate addDate = LocalDate.now();
+
+    public Dish(Integer id, String name, double price, Restaurant restaurant, LocalDate addDate) {
+        super(id, name);
+        this.price = price;
+        this.restaurant = restaurant;
+        this.addDate = addDate;
+    }
 }
