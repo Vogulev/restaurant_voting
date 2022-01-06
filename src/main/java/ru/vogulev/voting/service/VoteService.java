@@ -74,6 +74,7 @@ public class VoteService {
     }
 
     public List<VoteTo> getAllByDate(LocalDate voteDate) {
+        log.info("getAll by date{}", voteDate);
         return voteRepository.findAllByVoteDate(voteDate);
     }
 

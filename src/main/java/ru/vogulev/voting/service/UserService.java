@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static ru.vogulev.voting.util.UserUtil.prepareToSave;
 import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 
 @Slf4j
 @Service("userService")
@@ -33,7 +34,9 @@ public class UserService {
 
     @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
+        log.info("create {}", user);
         Assert.notNull(user, "user must not be null");
+        checkNew(user);
         return prepareAndSave(user);
     }
 
@@ -48,6 +51,7 @@ public class UserService {
 
     @Cacheable("users")
     public List<User> getAll() {
+        log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
@@ -59,6 +63,7 @@ public class UserService {
     }
 
     public Optional<User> getByEmail(String email) {
+        log.info("getByEmail {}", email);
         Assert.notNull(email, "email must not be null");
         return repository.getByEmail(email);
     }

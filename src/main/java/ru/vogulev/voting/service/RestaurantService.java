@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ru.vogulev.voting.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 
 @Slf4j
 @Service("restaurantService")
@@ -27,6 +28,7 @@ public class RestaurantService {
 
     public Restaurant create(Restaurant restaurant) {
         log.info("create {}", restaurant);
+        checkNew(restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
     }

@@ -2,7 +2,6 @@ package ru.vogulev.voting.web.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,7 +21,6 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 @CacheConfig(cacheNames = "users")
 @Tag(name = "Admin", description = "The Admin API")
 public class AdminUserController extends AbstractUserController {
@@ -48,7 +46,6 @@ public class AdminUserController extends AbstractUserController {
     @Cacheable
     @Operation(summary = "Get all", tags = "admin")
     public List<User> getAll() {
-        log.info("getAll");
         return service.getAll();
     }
 
@@ -56,7 +53,6 @@ public class AdminUserController extends AbstractUserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
-        log.info("create {}", user);
         checkNew(user);
         User created = prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -76,7 +72,6 @@ public class AdminUserController extends AbstractUserController {
     @Operation(summary = "Get by email", tags = "admin")
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
-        log.info("getByEmail {}", email);
         return ResponseEntity.of(service.getByEmail(email));
     }
 
