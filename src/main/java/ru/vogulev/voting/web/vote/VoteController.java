@@ -1,6 +1,8 @@
 package ru.vogulev.voting.web.vote;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,10 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Vote", description = "The Vote API")
+@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "200", description = "Ok"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "500", description = "Server error")})
 public class VoteController {
 
     static final String REST_URL = "/api/profile/votes";
@@ -33,7 +39,7 @@ public class VoteController {
         return ResponseEntity.of(service.get(id, authUser.id()));
     }
 
-    @Operation(summary = "Get all auth user votes", tags = "vote")
+    @Operation(summary = "vote history", tags = "vote")
     @GetMapping
     public List<Vote> getAll(@AuthenticationPrincipal AuthUser authUser) {
         return service.getAllByUserId(authUser.id());
@@ -59,8 +65,8 @@ public class VoteController {
                                                    @AuthenticationPrincipal AuthUser authUser) {
         Vote created = service.create(restaurantId, authUser);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{restaurantId}/{id}")
-                .buildAndExpand(restaurantId, created.getId()).toUri();
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

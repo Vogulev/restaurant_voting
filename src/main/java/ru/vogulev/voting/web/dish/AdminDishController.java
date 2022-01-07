@@ -21,7 +21,7 @@ import java.util.List;
 @Tag(name = "Dish admin", description = "The Dish Admin API")
 public class AdminDishController {
 
-    static final String REST_URL = "/api/admin/restaurants/{restaurantId}/dishes";
+    public static final String REST_URL = "/api/admin/restaurants/{restaurantId}/dishes";
 
     private DishService service;
 
@@ -31,7 +31,7 @@ public class AdminDishController {
         return ResponseEntity.of(service.get(id, restaurantId));
     }
 
-    @Operation(summary = "Get all", tags = "dish admin")
+    @Operation(summary = "Get menu history by restaurant id", tags = "dish admin")
     @GetMapping
     public List<Dish> getAll(@PathVariable int restaurantId) {
         return service.getAll(restaurantId);

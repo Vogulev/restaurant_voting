@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.vogulev.voting.model.Dish;
 import ru.vogulev.voting.repository.DishRepository;
 import ru.vogulev.voting.repository.RestaurantRepository;
+import ru.vogulev.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,7 +50,8 @@ public class DishService {
     public void update(Dish dish, int id, int restaurantId) {
         log.info("update {} with id={}", dish, id);
         assureIdConsistent(dish, id);
-        dish.setRestaurant(restaurantRepository.getById(restaurantId));
+        dish.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow(() ->
+                new NotFoundException("no restaurant with id " + restaurantId + " were found!")));
         dishRepository.save(dish);
     }
 

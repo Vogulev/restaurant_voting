@@ -35,6 +35,11 @@ public class Dish extends NamedEntity{
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate addDate = LocalDate.now();
 
+    public Dish(String name, double price) {
+        super(null, name);
+        this.price = price;
+    }
+
     public Dish(Integer id, String name, double price, Restaurant restaurant, LocalDate addDate) {
         super(id, name);
         this.price = price;

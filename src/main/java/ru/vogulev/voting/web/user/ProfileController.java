@@ -1,6 +1,8 @@
 package ru.vogulev.voting.web.user;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,10 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Profile", description = "The Profile API")
+@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "200", description = "Ok"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "500", description = "Server error")})
 public class ProfileController extends AbstractUserController {
     static final String REST_URL = "/api/profile";
 

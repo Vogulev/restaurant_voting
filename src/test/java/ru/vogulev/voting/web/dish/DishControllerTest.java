@@ -10,7 +10,7 @@ import ru.vogulev.voting.web.restaurant.RestaurantController;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.vogulev.voting.web.dish.DishTestData.Dish_MATCHER;
-import static ru.vogulev.voting.web.dish.DishTestData.premium_restaurant_menu;
+import static ru.vogulev.voting.web.dish.DishTestData.premium_restaurant_today_menu;
 import static ru.vogulev.voting.web.restaurant.RestaurantTestData.PREMIUM_RESTAURANT_ID;
 import static ru.vogulev.voting.web.user.UserTestData.USER_MAIL;
 
@@ -24,6 +24,6 @@ class DishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + PREMIUM_RESTAURANT_ID + "/dishes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(Dish_MATCHER.contentJson(premium_restaurant_menu));
+                .andExpect(Dish_MATCHER.contentJson(premium_restaurant_today_menu));
     }
 }

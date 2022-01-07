@@ -37,7 +37,8 @@ VALUES ('Premium restaurant'),
 
 INSERT INTO VOTE (USER_ID, RESTAURANT_ID, VOTE_DATE)
 VALUES (100000, 100007, CURRENT_DATE),
-       (100001, 100007, CURRENT_DATE),
+       (100000, 100007, CURRENT_DATE - 1),
+       (100001, 100007, CURRENT_DATE - 1),
        (100002, 100007, CURRENT_DATE),
        (100003, 100009, CURRENT_DATE),
        (100004, 100008, CURRENT_DATE),
@@ -63,4 +64,5 @@ VALUES ('Spaghetti bolognese', 50.5, 100007, CURRENT_DATE),
        ('Sushi maki', 11, 100010, CURRENT_DATE),
        ('Sushi nigiri', 8, 100010, CURRENT_DATE),
        ('Sushi tuna maguro', 7.2, 100010, CURRENT_DATE),
-       ('Sushi vegetarian', 2.9, 100010, CURRENT_DATE);
+       ('Sushi vegetarian', 2.9, 100010, CURRENT_DATE),
+       ('Yesterday Spaghetti bolognese', 66.6, 100007, CURRENT_DATE - 1);

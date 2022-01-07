@@ -1,6 +1,7 @@
 package ru.vogulev.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +27,11 @@ public class Vote extends BaseEntity{
     @JsonBackReference
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "RESTAURANT_ID", nullable = false)
     @NotNull
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonManagedReference
     private Restaurant restaurant;
 
     @Column(name = "VOTE_DATE", nullable = false, updatable = false)

@@ -9,6 +9,7 @@ import ru.vogulev.voting.repository.RestaurantRepository;
 import ru.vogulev.voting.repository.VoteRepository;
 import ru.vogulev.voting.to.VoteTo;
 import ru.vogulev.voting.util.exception.IllegalRequestDataException;
+import ru.vogulev.voting.util.exception.NotFoundException;
 import ru.vogulev.voting.web.AuthUser;
 
 import java.time.LocalDate;
@@ -29,7 +30,8 @@ public class VoteService {
     private RestaurantRepository restaurantRepository;
 
     public Vote create(int restaurantId, AuthUser authUser) {
-        Restaurant restaurant = restaurantRepository.getById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
+                new NotFoundException("no restaurant with id " + restaurantId + " were found!"));
         log.info("user with id{} voted for restaurant with id{}", authUser.id(), restaurantId);
         return voteRepository.save(new Vote(authUser.getUser(), restaurant));
     }
@@ -55,7 +57,7 @@ public class VoteService {
 
     public List<Vote> getAllByUserId(int userId) {
         log.info("getAll by user with id{}", userId);
-        return voteRepository.findAllByUserIdOrderByVoteDate(userId);
+        return voteRepository.findAllByUserIdOrderByVoteDateDesc(userId);
     }
 
     public void update(int restaurantId, int userid) {
