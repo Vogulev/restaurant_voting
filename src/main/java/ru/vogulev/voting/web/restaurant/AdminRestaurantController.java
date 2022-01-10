@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,8 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Tag(name = "Restaurant admin", description = "The Restaurant Admin API")
-@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created"),
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Created"),
         @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})
@@ -70,7 +72,8 @@ public class AdminRestaurantController {
 
     @Operation(summary = "Get all with votes count on date", tags = "restaurant admin")
     @GetMapping("/count")
-    public List<RestaurantTo> getAllWithVotesCountOnDate(@RequestParam LocalDate voteDate) {
+    public List<RestaurantTo> getAllWithVotesCountOnDate(@RequestParam @DateTimeFormat(
+            iso = DateTimeFormat.ISO.DATE, fallbackPatterns = "dd.MM.yyyy") LocalDate voteDate) {
         return service.getAllOnDate(voteDate);
     }
 }

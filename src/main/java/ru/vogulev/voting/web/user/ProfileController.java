@@ -22,7 +22,8 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Profile", description = "The Profile API")
-@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created"),
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Created"),
         @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})

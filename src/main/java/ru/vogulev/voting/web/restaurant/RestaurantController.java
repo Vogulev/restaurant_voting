@@ -18,7 +18,8 @@ import java.util.List;
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Tag(name = "Restaurant", description = "The Restaurant API")
-@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok"),
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})
 public class RestaurantController {

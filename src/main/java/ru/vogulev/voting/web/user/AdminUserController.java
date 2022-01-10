@@ -25,7 +25,8 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @CacheConfig(cacheNames = "users")
 @Tag(name = "Admin", description = "The Admin API")
-@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created"),
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Created"),
         @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})

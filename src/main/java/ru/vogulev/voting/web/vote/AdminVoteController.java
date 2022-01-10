@@ -18,7 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping(value = AdminVoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Vote admin", description = "The Vote Admin API")
-@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok"),
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})
 public class AdminVoteController {

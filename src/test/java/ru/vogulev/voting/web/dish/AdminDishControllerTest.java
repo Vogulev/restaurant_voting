@@ -33,7 +33,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + premium_restaurant.id() + "/dishes/" + premium_restaurant_dish1.id()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(Dish_MATCHER.contentJson(premium_restaurant_dish1));
+                .andExpect(DISH_MATCHER.contentJson(premium_restaurant_dish1));
     }
 
     @Test
@@ -50,7 +50,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + premium_restaurant.id() + "/dishes/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(Dish_MATCHER.contentJson(premium_restaurant_history_menu));
+                .andExpect(DISH_MATCHER.contentJson(premium_restaurant_history_menu));
     }
 
     @Test
@@ -58,7 +58,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + premium_restaurant.id() + "/dishes/" + premium_restaurant_dish1.id()))
                 .andExpect(status().isNoContent());
-        Dish_MATCHER.assertMatch(dishRepository.findAllByRestaurantIdOrderByAddDate(premium_restaurant.id()),
+        DISH_MATCHER.assertMatch(dishRepository.findAllByRestaurantIdOrderByAddDate(premium_restaurant.id()),
                 premium_restaurant_yesterdayDish, premium_restaurant_dish2, premium_restaurant_dish3, premium_restaurant_dish4, premium_restaurant_dish5);
     }
 
@@ -78,7 +78,7 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        Dish_MATCHER.assertMatch(dishRepository.findByIdAndRestaurantId(premium_restaurant_dish1.id(), premium_restaurant.id())
+        DISH_MATCHER.assertMatch(dishRepository.findByIdAndRestaurantId(premium_restaurant_dish1.id(), premium_restaurant.id())
                         .orElseThrow(() ->
                                 new NotFoundException("no dish with id " + premium_restaurant_dish1.id() + " were found!")),
                 premium_restaurant_updatedDish);
@@ -105,10 +105,10 @@ class AdminDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Dish created = Dish_MATCHER.readFromJson(action);
+        Dish created = DISH_MATCHER.readFromJson(action);
         int newId = created.id();
         newDish.setId(newId);
-        Dish_MATCHER.assertMatch(created, newDish);
-        Dish_MATCHER.assertMatch(dishRepository.getById(newId), newDish);
+        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(dishRepository.getById(newId), newDish);
     }
 }
