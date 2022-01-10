@@ -7,9 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import ru.vogulev.voting.model.User;
-import ru.vogulev.voting.repository.UserRepository;
 import ru.vogulev.voting.service.UserService;
-import ru.vogulev.voting.util.UserUtil;
 
 @Slf4j
 public abstract class AbstractUserController {
