@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.vogulev.voting.model.Dish;
 import ru.vogulev.voting.repository.DishRepository;
@@ -17,8 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.vogulev.voting.web.dish.DishTestData.*;
 import static ru.vogulev.voting.web.restaurant.RestaurantTestData.premium_restaurant;
-import static ru.vogulev.voting.web.user.UserTestData.ADMIN_MAIL;
-import static ru.vogulev.voting.web.user.UserTestData.USER_MAIL;
+import static ru.vogulev.voting.web.user.UserTestData.*;
 
 class AdminDishControllerTest extends AbstractControllerTest {
 
@@ -64,6 +64,13 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + premium_restaurant.id() + "/dishes/" + NOT_FOUND))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         perform(MockMvcRequestBuilders.put(REST_URL + premium_restaurant.id() + "/dishes/" + premium_restaurant_dish1.id())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -79,6 +86,29 @@ class AdminDishControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void createWithLocation() {
+    void updateInvalid() throws Exception {
+        perform(MockMvcRequestBuilders.put(REST_URL + premium_restaurant.id() + "/dishes/" + premium_restaurant_dish1.id())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(new Dish("D", 0))))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void createWithLocation() throws Exception {
+        Dish newDish = new Dish("newPremiumRestaurantDish", 99.9);
+
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + premium_restaurant.id() + "/dishes/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newDish)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Dish created = Dish_MATCHER.readFromJson(action);
+        int newId = created.id();
+        newDish.setId(newId);
+        Dish_MATCHER.assertMatch(created, newDish);
+        Dish_MATCHER.assertMatch(dishRepository.getById(newId), newDish);
     }
 }

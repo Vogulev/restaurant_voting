@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,10 +20,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "dish")
-public class Dish extends NamedEntity{
+public class Dish extends NamedEntity {
 
     @Column(name = "price", nullable = false)
     @NotNull
+    @Range(min = 1, max = 100000)
     private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
