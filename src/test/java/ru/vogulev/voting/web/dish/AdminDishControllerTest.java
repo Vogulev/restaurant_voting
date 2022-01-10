@@ -56,10 +56,12 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + premium_restaurant.id() + "/dishes/" + premium_restaurant_dish1.id()))
+        perform(MockMvcRequestBuilders.delete(REST_URL + premium_restaurant.id() +
+                "/dishes/" + premium_restaurant_dish1.id()))
                 .andExpect(status().isNoContent());
         DISH_MATCHER.assertMatch(dishRepository.findAllByRestaurantIdOrderByAddDate(premium_restaurant.id()),
-                premium_restaurant_yesterdayDish, premium_restaurant_dish2, premium_restaurant_dish3, premium_restaurant_dish4, premium_restaurant_dish5);
+                premium_restaurant_yesterdayDish, premium_restaurant_dish2, premium_restaurant_dish3,
+                premium_restaurant_dish4, premium_restaurant_dish5);
     }
 
     @Test

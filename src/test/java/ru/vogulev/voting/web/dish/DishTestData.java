@@ -10,7 +10,7 @@ import static ru.vogulev.voting.model.BaseEntity.START_SEQ;
 import static ru.vogulev.voting.web.restaurant.RestaurantTestData.premium_restaurant;
 
 public class DishTestData {
-    public static final MatcherFactory.Matcher<Dish> Dish_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "addDate", "restaurant", "votes");
+    public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "addDate", "restaurant", "votes");
 
     public static final Dish premium_restaurant_dish1 = new Dish(START_SEQ + 18, "Spaghetti bolognese", 50.5, premium_restaurant, LocalDate.now());
     public static final Dish premium_restaurant_dish2 = new Dish(START_SEQ + 19, "Chicken salad", 23.1, premium_restaurant, LocalDate.now());
