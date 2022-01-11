@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.vogulev.voting.model.Vote;
@@ -42,8 +43,9 @@ public class AdminVoteController {
 
     @Operation(summary = "Get all votes on date", tags = "vote admin")
     @GetMapping
-    public List<VoteTo> getAllOnDate(@RequestParam LocalDate date) {
-        return service.getAllByDate(date);
+    public List<VoteTo> getAllOnDate(@RequestParam @DateTimeFormat(
+            iso = DateTimeFormat.ISO.DATE, fallbackPatterns = "dd.MM.yyyy") LocalDate voteDate) {
+        return service.getAllByDate(voteDate);
     }
 
     @Operation(summary = "Get history by user id", tags = "vote admin")
