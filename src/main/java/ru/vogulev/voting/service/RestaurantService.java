@@ -3,11 +3,13 @@ package ru.vogulev.voting.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.vogulev.voting.model.Restaurant;
 import ru.vogulev.voting.repository.RestaurantRepository;
@@ -25,10 +27,13 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @AllArgsConstructor
 @CacheConfig(cacheNames = "restaurants")
+@Transactional(readOnly = true)
 public class RestaurantService {
 
     private final RestaurantRepository repository;
 
+    @Transactional
+    @CacheEvict(allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
@@ -36,6 +41,8 @@ public class RestaurantService {
         return repository.save(restaurant);
     }
 
+    @Transactional
+    @CacheEvict(allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
@@ -46,18 +53,21 @@ public class RestaurantService {
         return repository.findRestaurantWithVotesById(id);
     }
 
-    @Cacheable("restaurants")
+    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
+    @Transactional
+    @CacheEvict(allEntries = true)
     public void update(Restaurant restaurant, int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
     }
 
+    @Cacheable
     public List<RestaurantTo> getAllOnDate(LocalDate voteDate) {
         log.info("get all restaurants on date {}", voteDate);
         return repository.findAllRestaurantsWithVotesCountOnDate(voteDate);

@@ -38,6 +38,19 @@ class VoteControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + USER_YESTERDAY_VOTE_ID))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void getNotAuthUser() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_YESTERDAY_VOTE_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @WithUserDetails(value = USER_MAIL)
     void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))
@@ -49,7 +62,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void delete() throws Exception {
-        if (LocalTime.now().isBefore(LocalTime.of(11,0))) {
+        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
             perform(MockMvcRequestBuilders.delete(REST_URL + USER_YESTERDAY_VOTE_ID))
                     .andExpect(status().isNoContent());
             VOTE_MATCHER.assertMatch(voteRepository.findAllByUserIdOrderByVoteDateDesc(USER_ID), List.of());
@@ -63,7 +76,7 @@ class VoteControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
-        if (LocalTime.now().isBefore(LocalTime.of(11,0))) {
+        if (LocalTime.now().isBefore(LocalTime.of(11, 0))) {
             perform(MockMvcRequestBuilders.put(REST_URL + BURGER_SHOP_ID)
                     .contentType(MediaType.APPLICATION_JSON))
                     .andDo(print())

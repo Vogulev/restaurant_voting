@@ -3,6 +3,7 @@ package ru.vogulev.voting.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vogulev.voting.model.Restaurant;
 import ru.vogulev.voting.model.Vote;
 import ru.vogulev.voting.repository.RestaurantRepository;
@@ -22,6 +23,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNotFound;
 @Slf4j
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class VoteService {
 
     private static final LocalTime VOTING_DEADLINE = LocalTime.of(11,0);
@@ -29,6 +31,7 @@ public class VoteService {
     private VoteRepository voteRepository;
     private RestaurantRepository restaurantRepository;
 
+    @Transactional
     public Vote create(int restaurantId, AuthUser authUser) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
                 new NotFoundException("no restaurant with id " + restaurantId + " were found!"));
@@ -36,6 +39,7 @@ public class VoteService {
         return voteRepository.save(new Vote(authUser.getUser(), restaurant));
     }
 
+    @Transactional
     public void delete(int id, int userId) {
         if (checkVotingDeadline()) {
             log.info("delete {}", id);
@@ -60,6 +64,7 @@ public class VoteService {
         return voteRepository.findAllByUserIdOrderByVoteDateDesc(userId);
     }
 
+    @Transactional
     public void update(int restaurantId, int userid) {
         Vote updated = checkNotFound(voteRepository.findVoteByUserIdAndVoteDate(userid, LocalDate.now()),
                 "id:" + restaurantId);
