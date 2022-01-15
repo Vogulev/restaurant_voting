@@ -1,7 +1,7 @@
 [![Build Status](https://app.travis-ci.com/Vogulev/restaurant_voting.svg?branch=master)](https://app.travis-ci.com/Vogulev/restaurant_voting)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/fefa4c24b8ff472b8024fd5523859198)](https://www.codacy.com/gh/Vogulev/restaurant_voting/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Vogulev/restaurant_voting&amp;utm_campaign=Badge_Grade)  
-[JavaOps.ru](https://javaops.ru/view/topjava) Graduation project
-====================================================================================
+[JavaOps.ru](https://javaops.ru/view/topjava) Graduation project  
+====================================================================================  
 Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
 
 ### **The task is:**
