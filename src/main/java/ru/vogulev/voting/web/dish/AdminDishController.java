@@ -24,13 +24,14 @@ import java.util.List;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Created"),
         @ApiResponse(responseCode = "200", description = "Ok"),
+        @ApiResponse(responseCode = "204", description = "No content"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})
 public class AdminDishController {
 
     public static final String REST_URL = "/api/admin/restaurants/{restaurantId}/dishes";
 
-    private DishService service;
+    private final DishService service;
 
     @Operation(summary = "Get by id", tags = "dish admin")
     @GetMapping("/{id}")

@@ -27,7 +27,7 @@ import java.util.List;
         @ApiResponse(responseCode = "500", description = "Server error")})
 public class DishController {
 
-    private DishService service;
+    private final DishService service;
 
     @Operation(summary = "Get menu", tags = "dish")
     @GetMapping("/{restaurantId}/dishes")

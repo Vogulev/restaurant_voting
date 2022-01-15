@@ -29,6 +29,7 @@ import static ru.vogulev.voting.util.validation.ValidationUtil.checkNew;
 @Tag(name = "Restaurant admin", description = "The Restaurant Admin API")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "204", description = "No content"),
         @ApiResponse(responseCode = "200", description = "Ok"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "500", description = "Server error")})
